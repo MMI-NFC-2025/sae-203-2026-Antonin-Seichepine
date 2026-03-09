@@ -1,0 +1,72 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ArtisteCard from "../../../components/ArtisteCard.astro";
+import { getArtistesByDate } from "../../../js/backend.mjs";
+
+// Récupérer le jour depuis l'URL
+const { jour } = Astro.params;
+
+// Récupérer tous les artistes et filtrer par jour
+const tousArtistes = await getArtistesByDate();
+const artistes = tousArtistes.filter(
+    (a) => new Date(a.date_debut).getUTCDate().toString() === jour,
+);
+
+// Redirection si aucun artiste trouvé
+if (artistes.length === 0) {
+    return Astro.redirect("/artistes");
+}
+
+// Liste des jours uniques pour les filtres
+const jours = [
+    ...new Set(tousArtistes.map((a) => new Date(a.date_debut).getUTCDate())),
+].sort();
+---
+
+<Layout titre={`Artistes - ${jour} Décembre`}>
+    <!-- Bandeau hero -->
+    <section class="relative">
+        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+            <div class="absolute inset-0 bg-primary/85"></div>
+        </div>
+    </section>
+
+    <!-- Filtres -->
+    <section class="px-6 pt-10 max-w-md mx-auto">
+        <h2 class="font-heading text-3xl text-cream text-center mb-6 font-bold">
+            Artistes
+        </h2>
+
+        <div class="flex flex-wrap gap-2 mb-8 justify-center">
+            <a
+                href="/artistes"
+                class="font-body text-xs bg-transparent text-cream px-3 py-1 rounded-lg"
+                style="border: 1px solid #8B1538;"
+            >
+                Tous
+            </a>
+            {
+                jours.map((j) => (
+                    <a
+                        href={`/artistes/jour/${j}`}
+                        class={`font-body text-xs px-3 py-1 rounded-lg ${j.toString() === jour ? "bg-accent text-primary" : "bg-transparent text-cream"}`}
+                        style={
+                            j.toString() !== jour
+                                ? "border: 1px solid #8B1538;"
+                                : ""
+                        }
+                    >
+                        {j} Déc
+                    </a>
+                ))
+            }
+        </div>
+    </section>
+
+    <!-- Liste filtrée -->
+    <section class="px-6 pb-10 max-w-md mx-auto">
+        <div class="flex flex-col gap-6">
+            {artistes.map((artiste) => <ArtisteCard artiste={artiste} />)}
+        </div>
+    </section>
+</Layout>

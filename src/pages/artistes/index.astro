@@ -5,6 +5,12 @@ import { getArtistesByDate } from "../../js/backend.mjs";
 
 // Récupérer tous les artistes triés par date
 const artistes = await getArtistesByDate();
+
+// Listes uniques pour les filtres
+const genres = [...new Set(artistes.map((a) => a.genre_musical))];
+const jours = [
+    ...new Set(artistes.map((a) => new Date(a.date_debut).getUTCDate())),
+].sort();
 ---
 
 <Layout titre="Artistes">
@@ -17,13 +23,44 @@ const artistes = await getArtistesByDate();
 
     <!-- Liste des artistes -->
     <section class="px-6 py-10">
-        <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">
+        <h2 class="font-heading text-3xl text-cream text-center mb-6 font-bold">
             Artistes
         </h2>
+
+        <!-- Filtres par genre -->
+        <div class="flex flex-wrap gap-2 mb-4 justify-center max-w-md mx-auto">
+            <span class="font-body text-xs text-cream-dark mr-1">Genre :</span>
+            {
+                genres.map((g) => (
+                    <a
+                        href={`/artistes/genre/${encodeURIComponent(g)}`}
+                        class="font-body text-xs bg-transparent text-cream px-3 py-1 rounded-lg"
+                        style="border: 1px solid #8B1538;"
+                    >
+                        {g}
+                    </a>
+                ))
+            }
+        </div>
+
+        <!-- Filtres par jour -->
+        <div class="flex flex-wrap gap-2 mb-8 justify-center max-w-md mx-auto">
+            <span class="font-body text-xs text-cream-dark mr-1">Jour :</span>
+            {
+                jours.map((j) => (
+                    <a
+                        href={`/artistes/jour/${j}`}
+                        class="font-body text-xs bg-transparent text-cream px-3 py-1 rounded-lg"
+                        style="border: 1px solid #8B1538;"
+                    >
+                        {j} Déc
+                    </a>
+                ))
+            }
+        </div>
 
         <div class="flex flex-col gap-6 max-w-md mx-auto">
             {artistes.map((artiste) => <ArtisteCard artiste={artiste} />)}
         </div>
     </section>
 </Layout>
-
