@@ -1,0 +1,206 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+    getArtistesByDate,
+    getScenesByName,
+    getArtiste,
+    updateArtiste,
+    createArtiste,
+} from "../../js/backend.mjs";
+
+// Récupérer les scènes pour le select
+const scenes = await getScenesByName();
+const artistes = await getArtistesByDate();
+
+// Vérifier si on modifie un artiste existant
+const url = new URL(Astro.request.url);
+const editId = url.searchParams.get("edit");
+
+let artisteToEdit = null;
+if (editId) {
+    artisteToEdit = await getArtiste(editId);
+}
+
+// Traitement du formulaire
+let message = "";
+
+if (Astro.request.method === "POST") {
+    const formData = await Astro.request.formData();
+
+    const data = {
+        nom_artiste: formData.get("nom_artiste"),
+        genre_musical: formData.get("genre_musical"),
+        description_artiste: formData.get("description_artiste"),
+        date_debut: formData.get("date_debut"),
+        scene: formData.get("scene"),
+        favori: formData.get("favori") === "on",
+    };
+
+    const id = formData.get("artiste_id");
+    if (id) {
+        await updateArtiste(id, data);
+        message = "Artiste modifié avec succès !";
+    } else {
+        await createArtiste(data);
+        message = "Artiste ajouté avec succès !";
+    }
+}
+---
+
+<Layout titre="Ajouter un artiste">
+    <!-- Bandeau hero -->
+    <section class="relative">
+        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+            <div class="absolute inset-0 bg-primary/85"></div>
+        </div>
+    </section>
+
+    <section class="px-6 py-10 max-w-md mx-auto">
+        <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">
+            {artisteToEdit ? "Modifier un artiste" : "Ajouter un artiste"}
+        </h2>
+
+        <!-- Message de succès -->
+        {
+            message && (
+                <div
+                    class="bg-accent text-primary font-body text-sm text-center rounded-xl mb-6"
+                    style="padding: 0.75rem;"
+                >
+                    {message}
+                </div>
+            )
+        }
+
+        <form method="POST" class="flex flex-col" style="gap: 1.5rem;">
+            {
+                artisteToEdit && (
+                    <input
+                        type="hidden"
+                        name="artiste_id"
+                        value={artisteToEdit.id}
+                    />
+                )
+            }
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Nom de l'artiste :</label
+                >
+                <input
+                    type="text"
+                    name="nom_artiste"
+                    required
+                    value={artisteToEdit?.nom_artiste || ""}
+                    placeholder="Ex: Ensemble Baroque de Paris"
+                    class="w-full bg-transparent rounded-xl text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                />
+            </div>
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Genre musical :</label
+                >
+                <input
+                    type="text"
+                    name="genre_musical"
+                    value={artisteToEdit?.genre_musical || ""}
+                    placeholder="Ex: Soprano, Violon baroque..."
+                    class="w-full bg-transparent rounded-xl text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                />
+            </div>
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Description :</label
+                >
+                <textarea
+                    name="description_artiste"
+                    rows="4"
+                    placeholder="Description de l'artiste..."
+                    class="w-full bg-transparent rounded-xl text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors resize-none"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                    >{artisteToEdit?.description_artiste || ""}</textarea
+                >
+            </div>
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Date et heure :</label
+                >
+                <input
+                    type="datetime-local"
+                    name="date_debut"
+                    value={artisteToEdit?.date_debut
+                        ? artisteToEdit.date_debut.slice(0, 16)
+                        : ""}
+                    class="w-full bg-transparent rounded-xl text-cream font-body text-sm focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                />
+            </div>
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Scène :</label
+                >
+                <select
+                    name="scene"
+                    class="w-full bg-primary rounded-xl text-cream font-body text-sm focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                >
+                    <option value="">-- Choisir une scène --</option>
+                    {
+                        scenes.map((s) => (
+                            <option
+                                value={s.id}
+                                selected={artisteToEdit?.scene === s.id}
+                            >
+                                {s.nom_scene}
+                            </option>
+                        ))
+                    }
+                </select>
+            </div>
+
+            <div class="text-center" style="margin-top: 0.5rem;">
+                <button
+                    type="submit"
+                    class="inline-block bg-accent text-primary font-body text-lg rounded-full"
+                    style="padding: 0.75rem 2rem; border: 2px solid #D4AF37;"
+                >
+                    {artisteToEdit ? "Modifier" : "Ajouter"}
+                </button>
+            </div>
+        </form>
+
+        <!-- Liste artistes existants -->
+        <h3
+            class="font-heading text-lg text-cream mb-3 font-bold"
+            style="margin-top: 3rem;"
+        >
+            Artistes existants :
+        </h3>
+        <div class="flex flex-col" style="gap: 0.5rem;">
+            {
+                artistes.map((a) => (
+                    <div
+                        class="flex items-center justify-between bg-card rounded-lg"
+                        style="padding: 0.5rem 1rem;"
+                    >
+                        <span class="font-body text-text-dark text-sm">
+                            {a.nom_artiste}
+                        </span>
+                        <a
+                            href={`/artistes/add?edit=${a.id}`}
+                            class="font-body text-text-accent text-xs hover:underline"
+                        >
+                            Modifier
+                        </a>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
+</Layout>

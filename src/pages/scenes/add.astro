@@ -1,0 +1,178 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+    getScenesByName,
+    getScene,
+    updateScene,
+    createScene,
+} from "../../js/backend.mjs";
+
+// Récupérer les scènes
+const scenes = await getScenesByName();
+
+// Vérifier si on modifie une scène existante
+const url = new URL(Astro.request.url);
+const editId = url.searchParams.get("edit");
+
+let sceneToEdit = null;
+if (editId) {
+    sceneToEdit = await getScene(editId);
+}
+
+// Traitement du formulaire
+let message = "";
+
+if (Astro.request.method === "POST") {
+    const formData = await Astro.request.formData();
+
+    const data = {
+        nom_scene: formData.get("nom_scene"),
+        description_scene: formData.get("description_scene"),
+        localisation: formData.get("localisation"),
+        capacite: Number(formData.get("capacite")),
+    };
+
+    const id = formData.get("scene_id");
+    if (id) {
+        await updateScene(id, data);
+        message = "Scène modifiée avec succès !";
+    } else {
+        await createScene(data);
+        message = "Scène ajoutée avec succès !";
+    }
+}
+---
+
+<Layout titre="Ajouter une scène">
+    <!-- Bandeau hero -->
+    <section class="relative">
+        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+            <div class="absolute inset-0 bg-primary/85"></div>
+        </div>
+    </section>
+
+    <section class="px-6 py-10 max-w-md mx-auto">
+        <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">
+            {sceneToEdit ? "Modifier une scène" : "Ajouter une scène"}
+        </h2>
+
+        <!-- Message de succès -->
+        {
+            message && (
+                <div
+                    class="bg-accent text-primary font-body text-sm text-center rounded-xl mb-6"
+                    style="padding: 0.75rem;"
+                >
+                    {message}
+                </div>
+            )
+        }
+
+        <form method="POST" class="flex flex-col" style="gap: 1.5rem;">
+            {
+                sceneToEdit && (
+                    <input
+                        type="hidden"
+                        name="scene_id"
+                        value={sceneToEdit.id}
+                    />
+                )
+            }
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Nom de la scène :</label
+                >
+                <input
+                    type="text"
+                    name="nom_scene"
+                    required
+                    value={sceneToEdit?.nom_scene || ""}
+                    placeholder="Ex: Église Saint-Maimbœuf"
+                    class="w-full bg-transparent rounded-xl text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                />
+            </div>
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Description :</label
+                >
+                <textarea
+                    name="description_scene"
+                    rows="4"
+                    placeholder="Description de la scène..."
+                    class="w-full bg-transparent rounded-xl text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors resize-none"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                    >{sceneToEdit?.description_scene || ""}</textarea
+                >
+            </div>
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Localisation :</label
+                >
+                <input
+                    type="text"
+                    name="localisation"
+                    value={sceneToEdit?.localisation || ""}
+                    placeholder="Ex: Rue du Château, Montbéliard"
+                    class="w-full bg-transparent rounded-xl text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                />
+            </div>
+
+            <div>
+                <label class="font-body font-bold text-cream text-sm mb-2 block"
+                    >Capacité :</label
+                >
+                <input
+                    type="number"
+                    name="capacite"
+                    value={sceneToEdit?.capacite || ""}
+                    placeholder="Ex: 400"
+                    class="w-full bg-transparent rounded-xl text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538; padding: 0.75rem 1.25rem;"
+                />
+            </div>
+
+            <div class="text-center" style="margin-top: 0.5rem;">
+                <button
+                    type="submit"
+                    class="inline-block bg-accent text-primary font-body text-lg rounded-full"
+                    style="padding: 0.75rem 2rem; border: 2px solid #D4AF37;"
+                >
+                    {sceneToEdit ? "Modifier" : "Ajouter"}
+                </button>
+            </div>
+        </form>
+
+        <!-- Liste scènes existantes -->
+        <h3
+            class="font-heading text-lg text-cream mb-3 font-bold"
+            style="margin-top: 3rem;"
+        >
+            Scènes existantes :
+        </h3>
+        <div class="flex flex-col" style="gap: 0.5rem;">
+            {
+                scenes.map((s) => (
+                    <div
+                        class="flex items-center justify-between bg-card rounded-lg"
+                        style="padding: 0.5rem 1rem;"
+                    >
+                        <span class="font-body text-text-dark text-sm">
+                            {s.nom_scene}
+                        </span>
+                        <a
+                            href={`/scenes/add?edit=${s.id}`}
+                            class="font-body text-text-accent text-xs hover:underline"
+                        >
+                            Modifier
+                        </a>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
+</Layout>
