@@ -1,0 +1,85 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout titre="Contact">
+    <!-- Bandeau hero -->
+    <section class="relative">
+        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+            <div class="absolute inset-0 bg-primary/85"></div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="px-6 py-10 max-w-md mx-auto">
+        <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">
+            Contact
+        </h2>
+
+        <div class="flex flex-col" style="gap: 1rem;">
+            <!-- Nom -->
+            <div>
+                <label
+                    class="font-body font-bold text-cream text-base mb-3 block"
+                    >Nom complet:</label
+                >
+                <input
+                    type="text"
+                    placeholder="Entrez votre texte..."
+                    class="w-full bg-transparent rounded-xl px-6 py-3 text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538;"
+                />
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label
+                    class="font-body font-bold text-cream text-base mb-3 block"
+                    >Adresse e-mail :</label
+                >
+                <input
+                    type="email"
+                    placeholder="Entrez votre texte..."
+                    class="w-full bg-transparent rounded-xl px-6 py-3 text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538;"
+                />
+            </div>
+
+            <!-- Objet -->
+            <div>
+                <label
+                    class="font-body font-bold text-cream text-base mb-3 block"
+                    >Objet du message :</label
+                >
+                <input
+                    type="text"
+                    placeholder="Entrez votre texte..."
+                    class="w-full bg-transparent rounded-xl px-6 py-3 text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors"
+                    style="border: 2px solid #8B1538;"
+                />
+            </div>
+
+            <!-- Message -->
+            <div>
+                <label
+                    class="font-body font-bold text-cream text-base mb-3 block"
+                    >Message :</label
+                >
+                <textarea
+                    placeholder="Entrez votre texte..."
+                    rows="6"
+                    class="w-full bg-transparent rounded-xl px-6 py-3 text-cream font-body text-sm placeholder-cream-dark/60 focus:outline-none transition-colors resize-none"
+                    style="border: 2px solid #8B1538;"></textarea>
+            </div>
+
+            <!-- Bouton envoyer -->
+            <div class="text-center mt-2">
+                <button
+                    class="inline-block bg-accent text-primary font-body text-lg px-8 py-3 rounded-full border-2 border-accent hover:bg-transparent hover:text-accent transition-colors"
+                >
+                    Envoyer
+                </button>
+            </div>
+        </div>
+    </section>
+</Layout>

@@ -1,0 +1,103 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout titre="Infos pratiques">
+    <!-- Bandeau hero -->
+    <section class="relative">
+        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+            <div class="absolute inset-0 bg-primary/85"></div>
+        </div>
+    </section>
+
+    <!-- Infos pratiques -->
+    <section class="px-6 py-10">
+        <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">
+            Infos pratiques
+        </h2>
+
+        <div class="flex flex-col gap-4 max-w-md mx-auto">
+            <!-- Tarifs -->
+            <div class="bg-card rounded-xl p-5">
+                <h3
+                    class="font-body font-semibold text-text-accent text-lg mb-1"
+                >
+                    Tarifs
+                </h3>
+                <p class="font-body text-text-dark text-sm">
+                    À partir de 15€ • Tarif famille disponible
+                </p>
+            </div>
+
+            <!-- Transport -->
+            <div class="bg-card rounded-xl p-5">
+                <h3
+                    class="font-body font-semibold text-text-accent text-lg mb-1"
+                >
+                    Transport
+                </h3>
+                <p class="font-body text-text-dark text-sm">
+                    Parking gratuit • Navettes entre les lieux
+                </p>
+            </div>
+
+            <!-- Hébergement -->
+            <div class="bg-card rounded-xl p-5">
+                <h3
+                    class="font-body font-semibold text-text-accent text-lg mb-1"
+                >
+                    Hébergement
+                </h3>
+                <p class="font-body text-text-dark text-sm">
+                    Partenariats hôtels • Offres spéciales
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partenaires -->
+    <section class="px-6 pb-10">
+        <h2 class="font-heading text-2xl text-cream text-center mb-6 font-bold">
+            Nos partenaires
+        </h2>
+
+        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+            <div
+                class="bg-card rounded-xl p-4 flex items-center justify-center"
+            >
+                <img
+                    src="/partenaire-ville.png"
+                    alt="Ville de Montbéliard"
+                    class="h-12 object-contain"
+                />
+            </div>
+            <div
+                class="bg-card rounded-xl p-4 flex items-center justify-center"
+            >
+                <img
+                    src="/partenaire-region.png"
+                    alt="Région Bourgogne-Franche-Comté"
+                    class="h-12 object-contain"
+                />
+            </div>
+            <div
+                class="bg-card rounded-xl p-4 flex items-center justify-center"
+            >
+                <img
+                    src="/partenaire-tourisme.png"
+                    alt="Office de Tourisme"
+                    class="h-12 object-contain"
+                />
+            </div>
+            <div
+                class="bg-card rounded-xl p-4 flex items-center justify-center"
+            >
+                <img
+                    src="/partenaire-conservatoire.png"
+                    alt="Conservatoire"
+                    class="h-12 object-contain"
+                />
+            </div>
+        </div>
+    </section>
+</Layout>
