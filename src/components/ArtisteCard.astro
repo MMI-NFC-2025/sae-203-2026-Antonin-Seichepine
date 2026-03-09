@@ -4,14 +4,11 @@ import { getImageUrl } from "../js/backend.mjs";
 
 const { artiste } = Astro.props;
 
-// Formater les dates
-const dateDebut = new Date(artiste.date_debut);
-const dateFin = artiste.date_fin ? new Date(artiste.date_fin) : null;
-const jourDebut = dateDebut.getDate();
-const jourFin = dateFin ? dateFin.getDate() : null;
-const dateTexte = jourFin
-    ? `${jourDebut} & ${jourFin} Décembre`
-    : `${jourDebut} Décembre`;
+// Formater la date
+const date = new Date(artiste.date_debut);
+const jour = date.getUTCDate();
+const heure = date.getUTCHours();
+const minutes = date.getUTCMinutes().toString().padStart(2, "0");
 ---
 
 <a href={`/artistes/${artiste.id}`} class="block">
@@ -31,7 +28,7 @@ const dateTexte = jourFin
                 {artiste.genre_musical}
             </p>
             <p class="font-body font-normal text-text-accent text-sm">
-                {dateTexte}
+                {jour} Décembre • {heure}h{minutes}
             </p>
         </div>
     </div>

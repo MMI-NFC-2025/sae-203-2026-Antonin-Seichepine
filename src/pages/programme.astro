@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getArtistesByDate } from '../js/backend.mjs';
+
+// Récupérer tous les artistes triés par date
+const artistes = await getArtistesByDate();
+
+// Grouper les artistes par date
+const parJour = {};
+artistes.forEach((artiste) => {
+  const date = new Date(artiste.date_debut);
+  const jour = date.getUTCDate();
+  const cle = `${jour} Décembre`;
+  if (!parJour[cle]) {
+    parJour[cle] = [];
+  }
+  parJour[cle].push(artiste);
+});
+
+// Trier les artistes par heure dans chaque jour
+Object.values(parJour).forEach((artistesJour) => {
+  artistesJour.sort((a, b) => new Date(a.date_debut) - new Date(b.date_debut));
+});
+---
+
+<Layout titre="Programme">
+
+  <!-- Bandeau hero -->
+  <section class="relative">
+    <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+      <div class="absolute inset-0 bg-primary/85"></div>
+    </div>
+  </section>
+
+  <!-- Programme -->
+  <section class="px-6 py-10">
+    <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">Programme</h2>
+
+    <div class="flex flex-col gap-6 max-w-md mx-auto">
+      {Object.entries(parJour).map(([jour, artistesJour]) => (
+        <div class="bg-card rounded-xl p-5">
+          <!-- Date + tag -->
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-body font-bold text-text-accent text-2xl">{jour}</h3>
+            <span class="font-body text-sm text-text-accent px-4 py-1 rounded-lg" style="background-color: #E8C4A7;">
+              {artistesJour[0].genre_musical}
+            </span>
+          </div>
+
+          <!-- Artistes du jour -->
+          {artistesJour.map((artiste) => (
+            <div class="mb-3 last:mb-0">
+              <a href={`/artistes/${artiste.id}`} class="font-body font-semibold text-text-dark text-lg hover:text-text-accent transition-colors">
+                {artiste.nom_artiste}
+              </a>
+              <p class="font-body text-text-dark text-sm">
+                {artiste.expand?.scene?.nom_scene} • {new Date(artiste.date_debut).getUTCHours()}h{new Date(artiste.date_debut).getUTCMinutes().toString().padStart(2, '0')}
+              </p>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+
+</Layout>
