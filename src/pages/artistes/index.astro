@@ -1,0 +1,29 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ArtisteCard from "../../components/ArtisteCard.astro";
+import { getArtistesByDate } from "../../js/backend.mjs";
+
+// Récupérer tous les artistes triés par date
+const artistes = await getArtistesByDate();
+---
+
+<Layout titre="Artistes">
+    <!-- Bandeau hero -->
+    <section class="relative">
+        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+            <div class="absolute inset-0 bg-primary/85"></div>
+        </div>
+    </section>
+
+    <!-- Liste des artistes -->
+    <section class="px-6 py-10">
+        <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">
+            Artistes
+        </h2>
+
+        <div class="flex flex-col gap-6 max-w-md mx-auto">
+            {artistes.map((artiste) => <ArtisteCard artiste={artiste} />)}
+        </div>
+    </section>
+</Layout>
+

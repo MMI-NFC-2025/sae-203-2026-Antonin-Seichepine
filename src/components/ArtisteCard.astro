@@ -1,0 +1,38 @@
+---
+// ArtisteCard.astro — Carte d'un artiste
+import { getImageUrl } from "../js/backend.mjs";
+
+const { artiste } = Astro.props;
+
+// Formater les dates
+const dateDebut = new Date(artiste.date_debut);
+const dateFin = artiste.date_fin ? new Date(artiste.date_fin) : null;
+const jourDebut = dateDebut.getDate();
+const jourFin = dateFin ? dateFin.getDate() : null;
+const dateTexte = jourFin
+    ? `${jourDebut} & ${jourFin} Décembre`
+    : `${jourDebut} Décembre`;
+---
+
+<a href={`/artistes/${artiste.id}`} class="block">
+    <div class="overflow-hidden">
+        <!-- Photo -->
+        <img
+            src={getImageUrl(artiste, artiste.photo)}
+            alt={artiste.nom_artiste}
+            class="w-full h-48 object-cover rounded-t-xl"
+        />
+        <!-- Infos -->
+        <div class="px-4 py-3 bg-card rounded-b-xl">
+            <h3 class="font-body font-semibold text-text-accent text-lg">
+                {artiste.nom_artiste}
+            </h3>
+            <p class="font-body font-normal text-text-dark text-sm">
+                {artiste.genre_musical}
+            </p>
+            <p class="font-body font-normal text-text-accent text-sm">
+                {dateTexte}
+            </p>
+        </div>
+    </div>
+</a>
