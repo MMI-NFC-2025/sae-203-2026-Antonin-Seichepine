@@ -1,0 +1,28 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SceneCard from "../../components/SceneCard.astro";
+import { getScenesByName } from "../../js/backend.mjs";
+
+// Récupérer toutes les scènes triées par nom
+const scenes = await getScenesByName();
+---
+
+<Layout titre="Scènes">
+    <!-- Bandeau hero -->
+    <section class="relative">
+        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+            <div class="absolute inset-0 bg-primary/85"></div>
+        </div>
+    </section>
+
+    <!-- Liste des scènes -->
+    <section class="px-6 py-10">
+        <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">
+            Lieux emblématiques
+        </h2>
+
+        <div class="flex flex-col gap-6 max-w-md mx-auto">
+            {scenes.map((scene) => <SceneCard scene={scene} />)}
+        </div>
+    </section>
+</Layout>
