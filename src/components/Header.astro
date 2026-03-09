@@ -16,7 +16,6 @@
         aria-label="Ouvrir le menu"
     >
         <svg
-            id="icon-menu"
             xmlns="http://www.w3.org/2000/svg"
             class="h-8 w-8"
             fill="none"
@@ -28,20 +27,6 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-        <svg
-            id="icon-close"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-8 w-8 hidden"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"></path>
         </svg>
     </button>
 
@@ -77,12 +62,10 @@
 <!-- Menu mobile (plein écran) -->
 <div
     id="mobile-menu"
-    class="fixed inset-0 bg-primary z-50 flex-col items-start justify-center px-10 gap-8 hidden"
+    class="fixed inset-0 bg-primary z-50 flex-col px-10 hidden"
 >
     <!-- Header du menu mobile -->
-    <div
-        class="absolute top-0 left-0 right-0 flex items-center justify-between px-6 py-4"
-    >
+    <div class="flex items-center justify-between py-4">
         <a href="/" class="flex items-center gap-2">
             <img src="/logo.svg" alt="Festicloze" class="h-10 w-10" />
             <span class="font-heading text-cream text-xl">Festicloze</span>
@@ -105,35 +88,35 @@
     </div>
 
     <!-- Liens du menu mobile -->
-    <nav class="flex flex-col gap-8 mt-24">
+    <nav class="flex flex-col gap-6 mt-12">
         <a
             href="/programme"
-            class="font-heading text-cream text-4xl hover:text-accent transition-colors"
+            class="menu-link font-heading text-cream text-4xl hover:text-accent transition-colors opacity-0 translate-y-4"
             >Programmes</a
         >
         <a
             href="/artistes"
-            class="font-heading text-cream text-4xl hover:text-accent transition-colors"
+            class="menu-link font-heading text-cream text-4xl hover:text-accent transition-colors opacity-0 translate-y-4"
             >Artistes</a
         >
         <a
             href="/scenes"
-            class="font-heading text-cream text-4xl hover:text-accent transition-colors"
+            class="menu-link font-heading text-cream text-4xl hover:text-accent transition-colors opacity-0 translate-y-4"
             >Scènes</a
         >
         <a
             href="/a-propos"
-            class="font-heading text-cream text-4xl hover:text-accent transition-colors"
+            class="menu-link font-heading text-cream text-4xl hover:text-accent transition-colors opacity-0 translate-y-4"
             >À propos</a
         >
         <a
             href="/contact"
-            class="font-heading text-cream text-4xl hover:text-accent transition-colors"
+            class="menu-link font-heading text-cream text-4xl hover:text-accent transition-colors opacity-0 translate-y-4"
             >Contact</a
         >
         <a
             href="/infos-pratiques"
-            class="font-heading text-cream text-4xl hover:text-accent transition-colors"
+            class="menu-link font-heading text-cream text-4xl hover:text-accent transition-colors opacity-0 translate-y-4"
             >Infos pratiques</a
         >
     </nav>
@@ -144,14 +127,42 @@
     const menuToggle = document.getElementById("menu-toggle");
     const menuClose = document.getElementById("menu-close");
     const mobileMenu = document.getElementById("mobile-menu");
+    const menuLinks = document.querySelectorAll(".menu-link");
 
+    // Ouvrir le menu avec animation en vague
     menuToggle.addEventListener("click", () => {
         mobileMenu.classList.remove("hidden");
         mobileMenu.classList.add("flex");
+
+        // Animation en vague : chaque lien apparaît avec un délai
+        menuLinks.forEach((link, i) => {
+            link.classList.remove("opacity-0", "translate-y-4");
+            link.classList.add("opacity-0", "translate-y-4");
+
+            setTimeout(() => {
+                link.style.transition =
+                    "opacity 0.4s ease, transform 0.4s ease";
+                link.classList.remove("opacity-0", "translate-y-4");
+                link.classList.add("opacity-100", "translate-y-0");
+            }, 100 * i);
+        });
     });
 
-    menuClose.addEventListener("click", () => {
-        mobileMenu.classList.add("hidden");
-        mobileMenu.classList.remove("flex");
+    // Fermer le menu
+menuClose.addEventListener('click', () => {
+  // Fade out smooth
+  mobileMenu.style.transition = 'opacity 0.3s ease';
+  mobileMenu.style.opacity = '0';
+
+  setTimeout(() => {
+    mobileMenu.classList.add('hidden');
+    mobileMenu.classList.remove('flex');
+    mobileMenu.style.opacity = '1';
+    // Reset des liens pour la prochaine ouverture
+    menuLinks.forEach((link) => {
+      link.classList.remove('opacity-100', 'translate-y-0');
+      link.classList.add('opacity-0', 'translate-y-4');
     });
+  }, 300);
+});
 </script>

@@ -8,32 +8,28 @@ const artistes = await getArtistesByDate();
 
 <Layout titre="Accueil">
 	<!-- Hero Section -->
-	<section class="relative bg-primary-light">
+	<section class="relative">
 		<div
 			class="relative h-[70vh] flex flex-col items-center justify-center text-center px-6 bg-[url('/hero-bg.jpg')] bg-cover bg-center"
 		>
-			<!-- Overlay sombre -->
-			<div class="absolute inset-0 bg-primary/70"></div>
+			<!-- Overlay bordeaux -->
+			<div class="absolute inset-0 bg-primary/85"></div>
 
 			<div class="relative z-10">
-				<h1 class="font-heading text-5xl md:text-7xl text-cream mb-4">
+				<h1 class="font-heading text-7xl text-cream mb-6 font-bold">
 					Festicloze
 				</h1>
-				<p
-					class="font-heading text-xl md:text-2xl text-cream-dark mb-2"
-				>
+				<p class="font-body text-xl text-cream mb-1">
 					La magie de Noël au cœur
 				</p>
-				<p
-					class="font-heading text-xl md:text-2xl text-cream-dark mb-8"
-				>
+				<p class="font-body text-xl text-cream mb-12">
 					de la musique baroque
 				</p>
 
-				<div
-					class="bg-cream/20 rounded-full px-6 py-3 inline-block mb-4"
-				>
-					<p class="text-cream font-bold">20 - 23 Décembre 2025</p>
+				<div class="bg-cream/15 rounded-xl px-8 py-4 inline-block">
+					<p class="text-cream font-bold text-lg">
+						20 - 23 Décembre 2025
+					</p>
 					<p class="text-cream-dark text-sm">Montbéliard</p>
 				</div>
 			</div>
@@ -45,69 +41,25 @@ const artistes = await getArtistesByDate();
 		<div class="grid grid-cols-3 gap-4 max-w-md mx-auto text-center">
 			<div class="flex flex-col items-center gap-2">
 				<div
-					class="w-14 h-14 bg-accent rounded-full flex items-center justify-center"
+					class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="h-7 w-7 text-primary"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
-						></path>
-					</svg>
+					<img src="/ico-musique.png" alt="" class="w-12 h-12" />
 				</div>
 				<p class="text-cream text-sm">3 jours de concerts</p>
 			</div>
 			<div class="flex flex-col items-center gap-2">
 				<div
-					class="w-14 h-14 bg-accent rounded-full flex items-center justify-center"
+					class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="h-7 w-7 text-primary"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
-						></path>
-					</svg>
+					<img src="/ico-artistes.png" alt="" class="w-12 h-12" />
 				</div>
 				<p class="text-cream text-sm">Plusieurs artistes</p>
 			</div>
 			<div class="flex flex-col items-center gap-2">
 				<div
-					class="w-14 h-14 bg-accent rounded-full flex items-center justify-center"
+					class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
 				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="h-7 w-7 text-primary"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-						></path>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-					</svg>
+					<img src="/ico-lieux.png" alt="" class="w-12 h-12" />
 				</div>
 				<p class="text-cream text-sm">3 lieux</p>
 			</div>
@@ -115,19 +67,17 @@ const artistes = await getArtistesByDate();
 	</section>
 
 	<!-- Bouton CTA -->
-	<section class="px-6 pb-10">
-		<div class="bg-primary-light py-6 text-center">
-			<a
-				href="#"
-				class="inline-block border-2 border-accent text-accent font-heading text-lg px-8 py-3 rounded-full hover:bg-accent hover:text-primary transition-colors"
-			>
-				Réserver mes places
-			</a>
-		</div>
+	<section class="bg-primary py-8 text-center">
+		<a
+			href="#"
+			class="inline-block bg-accent text-primary font- text-lg px-8 py-3 rounded-full border-2 border-accent hover:bg-transparent hover:text-accent transition-colors"
+		>
+			Réserver mes places
+		</a>
 	</section>
 
 	<!-- Carrousel artistes -->
-	<section class="px-6 pb-12">
+	<section class="px-6 py-12">
 		<div class="relative overflow-hidden rounded-xl max-w-md mx-auto">
 			<div id="carrousel" class="flex transition-transform duration-500">
 				{
@@ -160,7 +110,7 @@ const artistes = await getArtistesByDate();
 				{
 					artistes.map((_, i) => (
 						<span
-							class={`w-3 h-3 rounded-full ${i === 0 ? "bg-accent" : "bg-cream/40"}`}
+							class={`w-3 h-3 rounded-full ${i === 0 ? "bg-accent" : "bg-primary-light"}`}
 							data-dot={i}
 						/>
 					))
@@ -184,7 +134,7 @@ const artistes = await getArtistesByDate();
 		carrousel.style.transform = `translateX(-${current * 100}%)`;
 		dots.forEach((dot, i) => {
 			dot.classList.toggle("bg-accent", i === current);
-			dot.classList.toggle("bg-cream/40", i !== current);
+			dot.classList.toggle("bg-primary-light", i !== current);
 		});
 	}
 
