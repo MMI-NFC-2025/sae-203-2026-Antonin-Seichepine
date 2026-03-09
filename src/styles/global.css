@@ -1,1 +1,41 @@
 @import "tailwindcss";
+
+@theme {
+    /* Couleurs Festicloze */
+    --color-primary: oklch(0.25 0.05 15);
+    /* bordeaux foncé - fond principal */
+    --color-primary-light: oklch(0.35 0.08 15);
+    /* bordeaux plus clair */
+    --color-accent: oklch(0.75 0.12 85);
+    /* doré */
+    --color-accent-dark: oklch(0.65 0.12 85);
+    /* doré foncé */
+    --color-cream: oklch(0.95 0.02 85);
+    /* crème - texte clair */
+    --color-cream-dark: oklch(0.85 0.03 85);
+    /* crème foncé */
+    --color-card: oklch(0.93 0.02 85);
+    /* fond des cards */
+    --color-text-dark: oklch(0.25 0.05 15);
+    /* texte foncé sur cards */
+    --color-text-accent: oklch(0.40 0.12 15);
+    /* titres accent sur cards */
+
+    /* Fonts */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+}
+
+/* Styles de base */
+@layer base {
+    body {
+        @apply bg-primary text-cream font-body;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-heading;
+    }
+}
