@@ -33,19 +33,21 @@ import Layout from "../layouts/Layout.astro";
         <h3 class="font-heading text-xl text-cream mb-4 font-bold">
             Nos valeurs
         </h3>
-        <div class="text-cream font-body text-sm leading-relaxed mb-8">
-            <p class="mb-2">
-                🤝 <strong>Le Partage</strong> – Réunir les générations autour de
-                la musique et de la convivialité
-            </p>
-            <p class="mb-2">
-                🎭 <strong>La Tradition</strong> – Célébrer l'héritage musical baroque
-                et le patrimoine de Montbéliard
-            </p>
-            <p class="mb-2">
-                ✨ <strong>L'Émerveillement</strong> – Créer la magie de Noël par
-                la musique et la scénographie
-            </p>
+        <div class="rounded-2xl border border-primary-light/60 bg-primary-light/15 p-6 mb-8">
+            <ul class="text-cream font-body text-sm leading-relaxed list-disc pl-5">
+                <li class="mb-2">
+                    <strong>Le Partage</strong> &ndash; R&eacute;unir les g&eacute;n&eacute;rations autour de
+                    la musique et de la convivialit&eacute;
+                </li>
+                <li class="mb-2">
+                    <strong>La Tradition</strong> &ndash; C&eacute;l&eacute;brer l'h&eacute;ritage musical baroque
+                    et le patrimoine de Montb&eacute;liard
+                </li>
+                <li class="mb-2">
+                    <strong>L&apos;&Eacute;merveillement</strong> &ndash; Cr&eacute;er la magie de No&euml;l par
+                    la musique et la sc&eacute;nographie
+                </li>
+            </ul>
         </div>
 
         <!-- Notre mission -->
@@ -61,7 +63,43 @@ import Layout from "../layouts/Layout.astro";
         </div>
     </section>
 
-    <!-- FAQ -->
+    <!-- Historique -->
+    <section class="px-6 py-10">
+        <div class="mygrid">
+            <div class="max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0">
+                <h2 class="font-heading text-2xl text-cream text-center mb-6 font-bold">
+                    Historique du festival
+                </h2>
+                <div class="rounded-2xl border border-primary-light/60 bg-primary-light/15 p-6 lg:p-8">
+                    <p class="text-cream font-body text-sm leading-relaxed">
+                    Créé à Montbéliard pour faire découvrir la musique baroque au grand public,
+                    Festicloze rassemble depuis ses débuts artistes, habitants et visiteurs autour
+                    d’un rendez-vous culturel de fin d’année. Le festival a grandi avec un objectif
+                    constant : proposer une programmation exigeante, festive et accessible à tous.
+                </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Équipe -->
+    <section class="px-6 py-10">
+        <div class="mygrid">
+            <div class="max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0">
+                <h2 class="font-heading text-2xl text-cream text-center mb-6 font-bold">
+                    Équipe
+                </h2>
+                <ul class="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
+                    <li class="rounded-2xl border border-primary-light/60 bg-primary-light/15 px-4 py-3 text-cream font-body text-sm">Antonin Seichepine</li>
+                    <li class="rounded-2xl border border-primary-light/60 bg-primary-light/15 px-4 py-3 text-cream font-body text-sm">Camille Martin</li>
+                    <li class="rounded-2xl border border-primary-light/60 bg-primary-light/15 px-4 py-3 text-cream font-body text-sm">Lucas Bernard</li>
+                    <li class="rounded-2xl border border-primary-light/60 bg-primary-light/15 px-4 py-3 text-cream font-body text-sm">Emma Leroy</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+<!-- FAQ -->
     <!-- FAQ -->
     <!-- FAQ -->
     <section class="px-6 pt-6 pb-10">
