@@ -1,10 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PbImage from "../components/PbImage.astro";
+import { Image, getImage } from "astro:assets";
 import { getArtistesByDate } from "../js/backend.mjs";
+import heroBg from "../assets/images/hero-bg.jpg";
+import icoMusique from "../assets/images/ico-musique.png";
+import icoArtistes from "../assets/images/ico-artistes.png";
+import icoLieux from "../assets/images/ico-lieux.png";
 
 // Récupérer les artistes pour le carrousel
 const artistes = await getArtistesByDate();
+const heroBgOptimized = await getImage({ src: heroBg });
 
 function getObjectPositionClass(photo) {
 	const imageName = String(photo || "");
@@ -25,7 +31,8 @@ function getObjectPositionClass(photo) {
 	<!-- Hero Section -->
 	<section class="relative">
 		<div
-			class="relative h-[70vh] flex flex-col items-center justify-center text-center px-6 bg-[url('/hero-bg.jpg')] bg-cover bg-center"
+			class="relative h-[70vh] flex flex-col items-center justify-center text-center px-6 bg-cover bg-center"
+			style={`background-image:url(${heroBgOptimized.src})`}
 		>
 			<!-- Overlay bordeaux -->
 			<div class="absolute inset-0 bg-primary/85"></div>
@@ -71,7 +78,13 @@ function getObjectPositionClass(photo) {
 					<div
 						class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
 					>
-						<img src="/ico-musique.png" alt="" class="w-12 h-12" />
+						<Image
+							src={icoMusique}
+							alt=""
+							class="w-12 h-12"
+							width={48}
+							height={48}
+						/>
 					</div>
 					<p class="text-cream text-sm">3 jours de concerts</p>
 				</div>
@@ -79,7 +92,13 @@ function getObjectPositionClass(photo) {
 					<div
 						class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
 					>
-						<img src="/ico-artistes.png" alt="" class="w-12 h-12" />
+						<Image
+							src={icoArtistes}
+							alt=""
+							class="w-12 h-12"
+							width={48}
+							height={48}
+						/>
 					</div>
 					<p class="text-cream text-sm">Plusieurs artistes</p>
 				</div>
@@ -87,7 +106,13 @@ function getObjectPositionClass(photo) {
 					<div
 						class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
 					>
-						<img src="/ico-lieux.png" alt="" class="w-12 h-12" />
+						<Image
+							src={icoLieux}
+							alt=""
+							class="w-12 h-12"
+							width={48}
+							height={48}
+						/>
 					</div>
 					<p class="text-cream text-sm">3 lieux</p>
 				</div>

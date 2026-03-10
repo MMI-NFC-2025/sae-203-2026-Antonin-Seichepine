@@ -1,10 +1,13 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ArtisteCard from "../../components/ArtisteCard.astro";
+import { getImage } from "astro:assets";
 import { getArtistesByDate } from "../../js/backend.mjs";
+import heroBg from "../../assets/images/hero-bg.jpg";
 
 // Récupérer tous les artistes triés par date
 const artistes = await getArtistesByDate();
+const heroBgOptimized = await getImage({ src: heroBg });
 
 // Listes uniques pour les filtres
 const genres = [...new Set(artistes.map((a) => a.genre_musical))];
@@ -16,7 +19,10 @@ const jours = [
 <Layout titre="Artistes">
     <!-- Bandeau hero -->
     <section class="relative">
-        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+        <div
+            class="h-24 bg-cover bg-center"
+            style={`background-image:url(${heroBgOptimized.src})`}
+        >
             <div class="absolute inset-0 bg-primary/85"></div>
         </div>
     </section>

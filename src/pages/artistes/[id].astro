@@ -1,13 +1,16 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PbImage from "../../components/PbImage.astro";
+import { getImage } from "astro:assets";
 import { getArtiste } from "../../js/backend.mjs";
+import heroBg from "../../assets/images/hero-bg.jpg";
 
 // Récupérer l'id depuis l'URL
 const { id } = Astro.params;
 
 // Récupérer les infos de l'artiste
 const artiste = await getArtiste(id);
+const heroBgOptimized = await getImage({ src: heroBg });
 
 // Redirection si l'artiste n'existe pas
 if (!artiste) {
@@ -49,7 +52,10 @@ function getObjectPositionClass(photo) {
 <Layout titre={artiste.nom_artiste}>
     <!-- Bandeau hero -->
     <section class="relative">
-        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+        <div
+            class="h-24 bg-cover bg-center"
+            style={`background-image:url(${heroBgOptimized.src})`}
+        >
             <div class="absolute inset-0 bg-primary/85"></div>
         </div>
     </section>

@@ -1,16 +1,22 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import SceneCard from "../../components/SceneCard.astro";
+import { getImage } from "astro:assets";
 import { getScenesByName } from "../../js/backend.mjs";
+import heroBg from "../../assets/images/hero-bg.jpg";
 
 // Récupérer toutes les scènes triées par nom
 const scenes = await getScenesByName();
+const heroBgOptimized = await getImage({ src: heroBg });
 ---
 
 <Layout titre="Scènes">
     <!-- Bandeau hero -->
     <section class="relative">
-        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+        <div
+            class="h-24 bg-cover bg-center"
+            style={`background-image:url(${heroBgOptimized.src})`}
+        >
             <div class="absolute inset-0 bg-primary/85"></div>
         </div>
     </section>

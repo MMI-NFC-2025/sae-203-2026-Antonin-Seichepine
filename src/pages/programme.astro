@@ -1,6 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getImage } from 'astro:assets';
 import { getArtistesByDate } from '../js/backend.mjs';
+import heroBg from '../assets/images/hero-bg.jpg';
+
+const heroBgOptimized = await getImage({ src: heroBg });
 
 // Récupérer tous les artistes triés par date
 const artistes = await getArtistesByDate();
@@ -46,7 +50,10 @@ Object.values(parJour).forEach((artistesJour) => {
 
   <!-- Bandeau hero -->
   <section class="relative">
-    <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+    <div
+      class="h-24 bg-cover bg-center"
+      style={`background-image:url(${heroBgOptimized.src})`}
+    >
       <div class="absolute inset-0 bg-primary/85"></div>
     </div>
   </section>

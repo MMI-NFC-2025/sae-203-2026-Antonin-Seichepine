@@ -1,11 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image, getImage } from "astro:assets";
+import heroBg from "../assets/images/hero-bg.jpg";
+import partenaireVille from "../assets/images/partenaire-ville.png";
+import partenaireRegion from "../assets/images/partenaire-region.png";
+import partenaireTourisme from "../assets/images/partenaire-tourisme.png";
+import partenaireConservatoire from "../assets/images/partenaire-conservatoire.png";
+
+const heroBgOptimized = await getImage({ src: heroBg });
 ---
 
 <Layout titre="Infos pratiques">
     <!-- Bandeau hero -->
     <section class="relative">
-        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+        <div
+            class="h-24 bg-cover bg-center"
+            style={`background-image:url(${heroBgOptimized.src})`}
+        >
             <div class="absolute inset-0 bg-primary/85"></div>
         </div>
     </section>
@@ -68,8 +79,10 @@ import Layout from "../layouts/Layout.astro";
             <div
                 class="bg-card rounded-xl p-4 flex items-center justify-center"
             >
-                <img
-                    src="/partenaire-ville.png"
+                <Image
+                    src={partenaireVille}
+                    width={3840}
+                    height={2040}
                     alt="Ville de Montbéliard"
                     class="h-12 object-contain"
                 />
@@ -77,8 +90,10 @@ import Layout from "../layouts/Layout.astro";
             <div
                 class="bg-card rounded-xl p-4 flex items-center justify-center"
             >
-                <img
-                    src="/partenaire-region.png"
+                <Image
+                    src={partenaireRegion}
+                    width={1464}
+                    height={1110}
                     alt="Région Bourgogne-Franche-Comté"
                     class="h-12 object-contain"
                 />
@@ -86,8 +101,10 @@ import Layout from "../layouts/Layout.astro";
             <div
                 class="bg-card rounded-xl p-4 flex items-center justify-center"
             >
-                <img
-                    src="/partenaire-tourisme.png"
+                <Image
+                    src={partenaireTourisme}
+                    width={500}
+                    height={666}
                     alt="Office de Tourisme"
                     class="h-12 object-contain"
                 />
@@ -95,8 +112,10 @@ import Layout from "../layouts/Layout.astro";
             <div
                 class="bg-card rounded-xl p-4 flex items-center justify-center"
             >
-                <img
-                    src="/partenaire-conservatoire.png"
+                <Image
+                    src={partenaireConservatoire}
+                    width={240}
+                    height={240}
                     alt="Conservatoire"
                     class="h-12 object-contain"
                 />

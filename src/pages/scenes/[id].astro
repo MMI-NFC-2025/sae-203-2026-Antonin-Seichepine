@@ -2,16 +2,19 @@
 import Layout from "../../layouts/Layout.astro";
 import ArtisteCard from "../../components/ArtisteCard.astro";
 import PbImage from "../../components/PbImage.astro";
+import { getImage } from "astro:assets";
 import {
     getScene,
     getArtistesBySceneId,
 } from "../../js/backend.mjs";
+import heroBg from "../../assets/images/hero-bg.jpg";
 
 // Récupérer l'id depuis l'URL
 const { id } = Astro.params;
 
 // Récupérer les infos de la scène
 const scene = await getScene(id);
+const heroBgOptimized = await getImage({ src: heroBg });
 
 // Redirection si la scène n'existe pas
 if (!scene) {
@@ -25,7 +28,10 @@ const artistes = await getArtistesBySceneId(id);
 <Layout titre={scene.nom_scene}>
     <!-- Bandeau hero -->
     <section class="relative">
-        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+        <div
+            class="h-24 bg-cover bg-center"
+            style={`background-image:url(${heroBgOptimized.src})`}
+        >
             <div class="absolute inset-0 bg-primary/85"></div>
         </div>
     </section>

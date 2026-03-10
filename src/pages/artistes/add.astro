@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { getImage } from "astro:assets";
 import {
     getArtistesByDate,
     getScenesByName,
@@ -8,6 +9,7 @@ import {
     createArtiste,
     isUserAuthenticated,
 } from "../../js/backend.mjs";
+import heroBg from "../../assets/images/hero-bg.jpg";
 
 // Récupérer les scènes pour le select
 const scenes = await getScenesByName();
@@ -24,6 +26,8 @@ if (!isConnected) {
         `/login?next=${encodeURIComponent(url.pathname + url.search)}`
     );
 }
+
+const heroBgOptimized = await getImage({ src: heroBg });
 const editId = url.searchParams.get("edit");
 
 let artisteToEdit = null;
@@ -60,7 +64,10 @@ if (Astro.request.method === "POST") {
 <Layout titre="Ajouter un artiste">
     <!-- Bandeau hero -->
     <section class="relative">
-        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+        <div
+            class="h-24 bg-cover bg-center"
+            style={`background-image:url(${heroBgOptimized.src})`}
+        >
             <div class="absolute inset-0 bg-primary/85"></div>
         </div>
     </section>

@@ -1,7 +1,9 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import ArtisteCard from "../../../components/ArtisteCard.astro";
+import { getImage } from "astro:assets";
 import { getArtistesByDate } from "../../../js/backend.mjs";
+import heroBg from "../../../assets/images/hero-bg.jpg";
 
 // Récupérer le jour depuis l'URL
 const { jour } = Astro.params;
@@ -21,12 +23,16 @@ if (artistes.length === 0) {
 const jours = [
     ...new Set(tousArtistes.map((a) => new Date(a.date_debut).getUTCDate())),
 ].sort();
+const heroBgOptimized = await getImage({ src: heroBg });
 ---
 
 <Layout titre={`Artistes - ${jour} Décembre`}>
     <!-- Bandeau hero -->
     <section class="relative">
-        <div class="h-24 bg-[url('/hero-bg.jpg')] bg-cover bg-center">
+        <div
+            class="h-24 bg-cover bg-center"
+            style={`background-image:url(${heroBgOptimized.src})`}
+        >
             <div class="absolute inset-0 bg-primary/85"></div>
         </div>
     </section>
