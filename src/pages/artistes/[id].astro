@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getArtiste, getImageUrl } from "../../js/backend.mjs";
+import PbImage from "../../components/PbImage.astro";
+import { getArtiste } from "../../js/backend.mjs";
 
 // Récupérer l'id depuis l'URL
 const { id } = Astro.params;
@@ -25,6 +26,24 @@ const scene = artiste.expand?.scene;
 
 // Toutes les images (photo principale + galerie)
 const allImages = [artiste.photo, ...(artiste.galerie || [])];
+
+function getObjectPositionClass(photo) {
+    const imageName = String(photo || "");
+
+    if (imageName.includes("pexels_cottonbro_6895809")) {
+        return "object-[20%_40%]";
+    }
+
+    if (imageName.includes("pexels_caio_60875")) {
+        return "object-[20%_25%]";
+    }
+
+    if (imageName.includes("pexels_saulo_leite_1491182_14990421")) {
+        return "object-[50%_30%]";
+    }
+
+    return "";
+}
 ---
 
 <Layout titre={artiste.nom_artiste}>
@@ -38,102 +57,135 @@ const allImages = [artiste.photo, ...(artiste.galerie || [])];
     <!-- Détail artiste -->
     <section class="px-6 py-10">
         <div class="mygrid">
-            <div class="max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0">
-        <!-- Nom -->
-        <h1 class="font-heading text-3xl text-cream text-center mb-6 font-bold">
-            {artiste.nom_artiste}
-        </h1>
-
-        <!-- Card avec carrousel -->
-        <div class="overflow-hidden">
-            <!-- Carrousel images -->
-            <div class="relative">
-                <div
-                    id="artiste-carrousel"
-                    class="flex transition-transform duration-500"
+            <div
+                class="max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0"
+            >
+                <!-- Nom -->
+                <h1
+                    class="font-heading text-3xl text-cream text-center mb-6 font-bold"
                 >
-                    {
-                        allImages.map((photo) => (
-                            <div class="w-full flex-shrink-0">
-                                <img
-                                    src={getImageUrl(artiste, photo)}
-                                    alt={artiste.nom_artiste}
-                                    class="w-full h-72 object-cover rounded-t-xl"
-                                />
-                            </div>
-                        ))
-                    }
+                    {artiste.nom_artiste}
+                </h1>
+
+                <!-- Card avec carrousel -->
+                <div class="overflow-hidden">
+                    <!-- Carrousel images -->
+                    <div class="relative">
+                        <div
+                            id="artiste-carrousel"
+                            class="flex transition-transform duration-500"
+                        >
+                            {
+                                allImages.map((photo) => (
+                                    <div class="w-full flex-shrink-0">
+                                        <PbImage
+                                            record={artiste}
+                                            field={photo}
+                                            alt={artiste.nom_artiste}
+                                            classImg={`w-full h-72 object-cover rounded-t-xl ${getObjectPositionClass(photo)}`}
+                                        />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <!-- Flèches si plusieurs images -->
+                        {
+                            allImages.length > 1 && (
+                                <>
+                                    <button
+                                        id="art-prev"
+                                        class="absolute left-2 top-1/2 -translate-y-1/2 text-cream text-3xl bg-primary/50 rounded-full w-10 h-10 flex items-center justify-center"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            class="w-6 h-6 rotate-180 transition-transform duration-150 hover:scale-110"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                    </button>
+                                    <button
+                                        id="art-next"
+                                        class="absolute right-2 top-1/2 -translate-y-1/2 text-cream text-3xl bg-primary/50 rounded-full w-10 h-10 flex items-center justify-center"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            class="w-6 h-6 transition-transform duration-150 hover:scale-110"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                    </button>
+                                </>
+                            )
+                        }
+                    </div>
+
+                    <!-- Infos sous le carrousel -->
+                    <div class="p-5 bg-card rounded-b-xl">
+                        <div class="flex flex-col gap-1 mb-4">
+                            <p
+                                class="font-body font-semibold text-text-accent text-sm"
+                            >
+                                {artiste.genre_musical}
+                            </p>
+                            <p class="font-body text-text-dark text-sm">
+                                {dateTexte}
+                            </p>
+                            {
+                                scene && (
+                                    <a
+                                        href={`/scenes/${scene.id}`}
+                                        class="font-body text-text-accent text-sm hover:underline"
+                                    >
+                                        {scene.nom_scene}
+                                    </a>
+                                )
+                            }
+                        </div>
+
+                        <!-- Description -->
+                        <p
+                            class="font-body text-text-dark text-sm leading-relaxed"
+                        >
+                            {artiste.description_artiste}
+                        </p>
+                    </div>
                 </div>
-                <!-- Flèches si plusieurs images -->
+
+                <!-- Indicateurs -->
                 {
                     allImages.length > 1 && (
-                        <>
-                            <button
-                                id="art-prev"
-                                class="absolute left-2 top-1/2 -translate-y-1/2 text-cream text-3xl bg-primary/50 rounded-full w-10 h-10 flex items-center justify-center"
-                            >
-                                &lt;
-                            </button>
-                            <button
-                                id="art-next"
-                                class="absolute right-2 top-1/2 -translate-y-1/2 text-cream text-3xl bg-primary/50 rounded-full w-10 h-10 flex items-center justify-center"
-                            >
-                                &gt;
-                            </button>
-                        </>
+                        <div class="flex justify-center gap-2 mt-4">
+                            {allImages.map((_, i) => (
+                                <span
+                                    class={`w-3 h-3 rounded-full ${i === 0 ? "bg-accent" : "bg-primary-light"}`}
+                                    data-art-dot={i}
+                                />
+                            ))}
+                        </div>
                     )
                 }
-            </div>
 
-            <!-- Infos sous le carrousel -->
-            <div class="p-5 bg-card rounded-b-xl">
-                <div class="flex flex-col gap-1 mb-4">
-                    <p class="font-body font-semibold text-text-accent text-sm">
-                        {artiste.genre_musical}
-                    </p>
-                    <p class="font-body text-text-dark text-sm">{dateTexte}</p>
-                    {
-                        scene && (
-                            <a
-                                href={`/scenes/${scene.id}`}
-                                class="font-body text-text-accent text-sm hover:underline"
-                            >
-                                {scene.nom_scene}
-                            </a>
-                        )
-                    }
+                <!-- Bouton retour -->
+                <div class="mt-8 text-center">
+                    <a
+                        href="/artistes"
+                        class="inline-block bg-accent text-primary font-body px-6 py-2 rounded-full border-2 border-accent hover:bg-transparent hover:text-accent transition-colors"
+                    >
+                        ← Tous les artistes
+                    </a>
                 </div>
-
-                <!-- Description -->
-                <p class="font-body text-text-dark text-sm leading-relaxed">
-                    {artiste.description_artiste}
-                </p>
-            </div>
-        </div>
-
-        <!-- Indicateurs -->
-        {
-            allImages.length > 1 && (
-                <div class="flex justify-center gap-2 mt-4">
-                    {allImages.map((_, i) => (
-                        <span
-                            class={`w-3 h-3 rounded-full ${i === 0 ? "bg-accent" : "bg-primary-light"}`}
-                            data-art-dot={i}
-                        />
-                    ))}
-                </div>
-            )
-        }
-
-        <!-- Bouton retour -->
-        <div class="mt-8 text-center">
-            <a
-                href="/artistes"
-                class="inline-block bg-accent text-primary font-body px-6 py-2 rounded-full border-2 border-accent hover:bg-transparent hover:text-accent transition-colors"
-            >
-                ← Tous les artistes
-            </a>
-        </div>
             </div>
         </div>
     </section>

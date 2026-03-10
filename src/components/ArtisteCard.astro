@@ -1,6 +1,6 @@
 ---
 // ArtisteCard.astro — Carte d'un artiste
-import { getImageUrl } from "../js/backend.mjs";
+import PbImage from "./PbImage.astro";
 
 const { artiste } = Astro.props;
 
@@ -14,10 +14,11 @@ const minutes = date.getUTCMinutes().toString().padStart(2, "0");
 <a href={`/artistes/${artiste.id}`} class="block">
     <div class="overflow-hidden">
         <!-- Photo -->
-        <img
-            src={getImageUrl(artiste, artiste.photo)}
+        <PbImage
+            record={artiste}
+            field={artiste.photo}
             alt={artiste.nom_artiste}
-            class="w-full h-48 object-cover rounded-t-xl"
+            classImg="w-full h-48 object-cover rounded-t-xl"
         />
         <!-- Infos -->
         <div class="px-4 py-3 bg-card rounded-b-xl">
@@ -27,6 +28,13 @@ const minutes = date.getUTCMinutes().toString().padStart(2, "0");
             <p class="font-body font-normal text-text-dark text-sm">
                 {artiste.genre_musical}
             </p>
+            {
+                artiste.expand?.scene?.nom_scene && (
+                    <p class="font-body font-normal text-text-dark text-sm">
+                        {artiste.expand.scene.nom_scene}
+                    </p>
+                )
+            }
             <p class="font-body font-normal text-text-accent text-sm">
                 {jour} Décembre • {heure}h{minutes}
             </p>

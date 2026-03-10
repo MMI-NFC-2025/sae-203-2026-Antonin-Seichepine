@@ -1,9 +1,24 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getArtistesByDate, getImageUrl } from "../js/backend.mjs";
+import PbImage from "../components/PbImage.astro";
+import { getArtistesByDate } from "../js/backend.mjs";
 
 // Récupérer les artistes pour le carrousel
 const artistes = await getArtistesByDate();
+
+function getObjectPositionClass(photo) {
+	const imageName = String(photo || "");
+
+	if (imageName.includes("pexels_cottonbro_6895809")) {
+		return "object-[20%_40%]";
+	}
+
+	if (imageName.includes("pexels_caio_60875")) {
+		return "object-[20%_25%]";
+	}
+
+	return "";
+}
 ---
 
 <Layout titre="Accueil">
@@ -49,31 +64,33 @@ const artistes = await getArtistesByDate();
 	<!-- Chiffres clés -->
 	<section class="py-10 px-6">
 		<div class="mygrid">
-			<div class="grid grid-cols-3 gap-4 max-w-md mx-auto text-center lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0 lg:gap-8">
-			<div class="flex flex-col items-center gap-2">
-				<div
-					class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
-				>
-					<img src="/ico-musique.png" alt="" class="w-12 h-12" />
+			<div
+				class="grid grid-cols-3 gap-4 max-w-md mx-auto text-center lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0 lg:gap-8"
+			>
+				<div class="flex flex-col items-center gap-2">
+					<div
+						class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
+					>
+						<img src="/ico-musique.png" alt="" class="w-12 h-12" />
+					</div>
+					<p class="text-cream text-sm">3 jours de concerts</p>
 				</div>
-				<p class="text-cream text-sm">3 jours de concerts</p>
-			</div>
-			<div class="flex flex-col items-center gap-2">
-				<div
-					class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
-				>
-					<img src="/ico-artistes.png" alt="" class="w-12 h-12" />
+				<div class="flex flex-col items-center gap-2">
+					<div
+						class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
+					>
+						<img src="/ico-artistes.png" alt="" class="w-12 h-12" />
+					</div>
+					<p class="text-cream text-sm">Plusieurs artistes</p>
 				</div>
-				<p class="text-cream text-sm">Plusieurs artistes</p>
-			</div>
-			<div class="flex flex-col items-center gap-2">
-				<div
-					class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
-				>
-					<img src="/ico-lieux.png" alt="" class="w-12 h-12" />
+				<div class="flex flex-col items-center gap-2">
+					<div
+						class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
+					>
+						<img src="/ico-lieux.png" alt="" class="w-12 h-12" />
+					</div>
+					<p class="text-cream text-sm">3 lieux</p>
 				</div>
-				<p class="text-cream text-sm">3 lieux</p>
-			</div>
 			</div>
 		</div>
 	</section>
@@ -81,44 +98,70 @@ const artistes = await getArtistesByDate();
 	<!-- Carrousel artistes -->
 	<section class="px-6 py-12">
 		<div class="mygrid">
-			<div class="relative overflow-hidden rounded-xl max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0">
-			<div id="carrousel" class="flex transition-transform duration-500">
-				{
-					artistes.map((artiste) => (
-						<div class="w-full flex-shrink-0">
-							<a href={`/artistes/${artiste.id}`}>
-								<img
-									src={getImageUrl(artiste, artiste.photo)}
-									alt={artiste.nom_artiste}
-									class="w-full h-64 object-cover rounded-xl"
-								/>
-							</a>
-						</div>
-					))
-				}
-			</div>
-			<!-- Flèches navigation -->
-			<button
-				id="prev"
-				class="absolute left-2 top-1/2 -translate-y-1/2 text-cream text-3xl bg-primary/50 rounded-full w-10 h-10 flex items-center justify-center"
-				>&lt;</button
+			<div
+				class="relative overflow-hidden rounded-xl max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0"
 			>
-			<button
-				id="next"
-				class="absolute right-2 top-1/2 -translate-y-1/2 text-cream text-3xl bg-primary/50 rounded-full w-10 h-10 flex items-center justify-center"
-				>&gt;</button
-			>
-			<!-- Indicateurs -->
-			<div class="flex justify-center gap-2 mt-4">
-				{
-					artistes.map((_, i) => (
-						<span
-							class={`w-3 h-3 rounded-full ${i === 0 ? "bg-accent" : "bg-primary-light"}`}
-							data-dot={i}
-						/>
-					))
-				}
-			</div>
+				<div
+					id="carrousel"
+					class="flex transition-transform duration-500"
+				>
+					{
+						artistes.map((artiste) => (
+							<div class="w-full flex-shrink-0">
+								<a href={`/artistes/${artiste.id}`}>
+									<PbImage
+										record={artiste}
+										field={artiste.photo}
+										alt={artiste.nom_artiste}
+										classImg={`w-full h-64 object-cover rounded-xl ${getObjectPositionClass(artiste.photo)}`}
+									/>
+								</a>
+							</div>
+						))
+					}
+				</div>
+				<!-- Flèches navigation -->
+				<button
+					id="prev"
+					class="absolute left-2 top-1/2 -translate-y-1/2 text-cream text-3xl bg-primary/50 rounded-full w-10 h-10 flex items-center justify-center"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						class="w-6 h-6 rotate-180 transition-transform duration-150 hover:scale-110"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z"
+							clip-rule="evenodd"></path>
+					</svg></button
+				>
+				<button
+					id="next"
+					class="absolute right-2 top-1/2 -translate-y-1/2 text-cream text-3xl bg-primary/50 rounded-full w-10 h-10 flex items-center justify-center"
+					><svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						class="w-6 h-6 transition-transform duration-150 hover:scale-110"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm4.28 10.28a.75.75 0 0 0 0-1.06l-3-3a.75.75 0 1 0-1.06 1.06l1.72 1.72H8.25a.75.75 0 0 0 0 1.5h5.69l-1.72 1.72a.75.75 0 1 0 1.06 1.06l3-3Z"
+							clip-rule="evenodd"></path>
+					</svg></button
+				>
+				<!-- Indicateurs -->
+				<div class="flex justify-center gap-2 mt-4">
+					{
+						artistes.map((_, i) => (
+							<span
+								class={`w-3 h-3 rounded-full ${i === 0 ? "bg-accent" : "bg-primary-light"}`}
+								data-dot={i}
+							/>
+						))
+					}
+				</div>
 			</div>
 		</div>
 	</section>

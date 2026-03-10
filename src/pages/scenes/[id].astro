@@ -1,10 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ArtisteCard from "../../components/ArtisteCard.astro";
+import PbImage from "../../components/PbImage.astro";
 import {
     getScene,
     getArtistesBySceneId,
-    getImageUrl,
 } from "../../js/backend.mjs";
 
 // Récupérer l'id depuis l'URL
@@ -41,10 +41,11 @@ const artistes = await getArtistesBySceneId(id);
 
         <!-- Card scène -->
         <div class="overflow-hidden">
-            <img
-                src={getImageUrl(scene, scene.photo)}
+            <PbImage
+                record={scene}
+                field={scene.photo}
                 alt={scene.nom_scene}
-                class="w-full h-72 object-cover rounded-t-xl"
+                classImg="w-full h-72 object-cover rounded-t-xl"
             />
             <div class="p-5 bg-card rounded-b-xl">
                 <p class="font-body text-text-dark text-s mb-2">

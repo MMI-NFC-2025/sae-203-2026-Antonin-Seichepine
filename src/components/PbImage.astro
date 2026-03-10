@@ -1,0 +1,17 @@
+---
+import { getImageUrl } from "../js/backend.mjs";
+
+const { record, field, alt = "", classImg = "", ...attrs } = Astro.props;
+
+const hasImage = Boolean(record && field);
+const src = hasImage ? getImageUrl(record, field) : "";
+---
+
+{
+    src ? (
+        <img src={src} alt={alt} class={classImg} {...attrs} />
+    ) : (
+        <div class={classImg} aria-hidden="true"></div>
+    )
+}
+

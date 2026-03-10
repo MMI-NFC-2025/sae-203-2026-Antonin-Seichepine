@@ -1,6 +1,6 @@
 ---
 // SceneCard.astro — Carte d'une scène
-import { getImageUrl } from "../js/backend.mjs";
+import PbImage from "./PbImage.astro";
 
 const { scene } = Astro.props;
 ---
@@ -8,10 +8,11 @@ const { scene } = Astro.props;
 <a href={`/scenes/${scene.id}`} class="block">
     <div class="overflow-hidden">
         <!-- Photo -->
-        <img
-            src={getImageUrl(scene, scene.photo)}
+        <PbImage
+            record={scene}
+            field={scene.photo}
             alt={scene.nom_scene}
-            class="w-full h-48 object-cover rounded-t-xl"
+            classImg="w-full h-48 object-cover rounded-t-xl"
         />
         <!-- Infos -->
         <div class="px-4 py-3 bg-card rounded-b-xl">
