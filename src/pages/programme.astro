@@ -4,10 +4,29 @@ import { getArtistesByDate } from '../js/backend.mjs';
 
 // Récupérer tous les artistes triés par date
 const artistes = await getArtistesByDate();
+const url = new URL(Astro.request.url);
+const horaire = url.searchParams.get('horaire') || '';
+
+const horaires = [
+  ...new Set(
+    artistes.map((artiste) => {
+      const date = new Date(artiste.date_debut);
+      return `${date.getUTCHours().toString().padStart(2, '0')}h${date.getUTCMinutes().toString().padStart(2, '0')}`;
+    }),
+  ),
+].sort();
+
+const artistesFiltres = horaire
+  ? artistes.filter((artiste) => {
+      const date = new Date(artiste.date_debut);
+      const horaireArtiste = `${date.getUTCHours().toString().padStart(2, '0')}h${date.getUTCMinutes().toString().padStart(2, '0')}`;
+      return horaireArtiste === horaire;
+    })
+  : artistes;
 
 // Grouper les artistes par date
 const parJour = {};
-artistes.forEach((artiste) => {
+artistesFiltres.forEach((artiste) => {
   const date = new Date(artiste.date_debut);
   const jour = date.getUTCDate();
   const cle = `${jour} Décembre`;
@@ -36,6 +55,36 @@ Object.values(parJour).forEach((artistesJour) => {
   <section class="px-6 py-10">
     <div class="mygrid">
     <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold lg:col-span-12">Programme</h2>
+
+    <div class="flex flex-wrap gap-2 mb-4 justify-center max-w-md mx-auto lg:col-start-2 lg:col-span-10 lg:max-w-none lg:mx-0">
+      <span class="font-body text-xs text-cream-dark mr-1">Horaire :</span>
+      <a
+        href="/programme"
+        class={`font-body text-xs px-3 py-1 rounded-lg ${horaire === '' ? 'bg-accent text-primary' : 'bg-transparent text-cream'}`}
+        style={horaire !== '' ? 'border: 1px solid #8B1538;' : ''}
+      >
+        Tous
+      </a>
+      {horaires.map((h) => (
+        <a
+          href={`/programme?horaire=${encodeURIComponent(h)}`}
+          class={`font-body text-xs px-3 py-1 rounded-lg ${h === horaire ? 'bg-accent text-primary' : 'bg-transparent text-cream'}`}
+          style={h !== horaire ? 'border: 1px solid #8B1538;' : ''}
+        >
+          {h}
+        </a>
+      ))}
+    </div>
+
+    <div class="text-center mb-8 lg:col-span-12">
+      <a
+        href="/programme-festicloze.pdf"
+        download
+        class="inline-block bg-accent text-primary font-body text-sm px-6 py-2 rounded-full border-2 border-accent hover:bg-transparent hover:text-accent transition-colors"
+      >
+        Télécharger le programme PDF
+      </a>
+    </div>
 
     <div class="flex flex-col gap-6 max-w-md mx-auto lg:col-span-12 lg:max-w-none lg:mx-0 lg:grid lg:grid-cols-2 lg:gap-8">
       {Object.entries(parJour).map(([jour, artistesJour]) => (
