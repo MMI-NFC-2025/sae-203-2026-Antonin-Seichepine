@@ -6,6 +6,7 @@ import {
     getArtiste,
     updateArtiste,
     createArtiste,
+    isUserAuthenticated,
 } from "../../js/backend.mjs";
 
 // Récupérer les scènes pour le select
@@ -14,6 +15,15 @@ const artistes = await getArtistesByDate();
 
 // Vérifier si on modifie un artiste existant
 const url = new URL(Astro.request.url);
+const isConnected = await isUserAuthenticated(
+    Astro.cookies.get("pb_auth_token")?.value
+);
+
+if (!isConnected) {
+    return Astro.redirect(
+        `/login?next=${encodeURIComponent(url.pathname + url.search)}`
+    );
+}
 const editId = url.searchParams.get("edit");
 
 let artisteToEdit = null;

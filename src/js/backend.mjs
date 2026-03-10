@@ -4,7 +4,7 @@
 import PocketBase from 'pocketbase';
 
 // Connexion à PocketBase
-const pb = new PocketBase('http://127.0.0.1:8090');
+const pb = new PocketBase('https://pb-festicloze.antonin-seichepine.fr');
 
 
 // 1. Tous les artistes triés par date
@@ -153,6 +153,37 @@ export async function createScene(newData) {
 
 
 // Utilitaire : récupérer l'URL d'une image PocketBase
+// 9. Connexion utilisateur
+export async function loginUser(email, password) {
+    try {
+        const authPb = new PocketBase('https://pb-festicloze.antonin-seichepine.fr');
+        const authData = await authPb.collection('users').authWithPassword(email, password);
+        return {
+            token: authPb.authStore.token,
+            user: authData.record,
+        };
+    } catch (error) {
+        console.log('Une erreur est survenue', error);
+        return null;
+    }
+}
+
+export async function isUserAuthenticated(token) {
+    try {
+        if (!token) {
+            return false;
+        }
+
+        const authPb = new PocketBase('https://pb-festicloze.antonin-seichepine.fr');
+        authPb.authStore.save(token, null);
+        await authPb.collection('users').authRefresh();
+        return true;
+    } catch (error) {
+        console.log('Une erreur est survenue', error);
+        return false;
+    }
+}
+
 export function getImageUrl(record, recordImage) {
     return pb.files.getURL(record, recordImage);
 }

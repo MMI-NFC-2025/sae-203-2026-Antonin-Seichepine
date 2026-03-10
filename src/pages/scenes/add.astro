@@ -5,6 +5,7 @@ import {
     getScene,
     updateScene,
     createScene,
+    isUserAuthenticated,
 } from "../../js/backend.mjs";
 
 // Récupérer les scènes
@@ -12,6 +13,15 @@ const scenes = await getScenesByName();
 
 // Vérifier si on modifie une scène existante
 const url = new URL(Astro.request.url);
+const isConnected = await isUserAuthenticated(
+    Astro.cookies.get("pb_auth_token")?.value
+);
+
+if (!isConnected) {
+    return Astro.redirect(
+        `/login?next=${encodeURIComponent(url.pathname + url.search)}`
+    );
+}
 const editId = url.searchParams.get("edit");
 
 let sceneToEdit = null;
