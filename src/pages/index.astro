@@ -48,7 +48,8 @@ const artistes = await getArtistesByDate();
 
 	<!-- Chiffres clés -->
 	<section class="py-10 px-6">
-		<div class="grid grid-cols-3 gap-4 max-w-md mx-auto text-center">
+		<div class="mygrid">
+			<div class="grid grid-cols-3 gap-4 max-w-md mx-auto text-center lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0 lg:gap-8">
 			<div class="flex flex-col items-center gap-2">
 				<div
 					class="w-16 h-16 bg-accent rounded-full flex items-center justify-center"
@@ -73,12 +74,14 @@ const artistes = await getArtistesByDate();
 				</div>
 				<p class="text-cream text-sm">3 lieux</p>
 			</div>
+			</div>
 		</div>
 	</section>
 
 	<!-- Carrousel artistes -->
 	<section class="px-6 py-12">
-		<div class="relative overflow-hidden rounded-xl max-w-md mx-auto">
+		<div class="mygrid">
+			<div class="relative overflow-hidden rounded-xl max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0">
 			<div id="carrousel" class="flex transition-transform duration-500">
 				{
 					artistes.map((artiste) => (
@@ -115,6 +118,7 @@ const artistes = await getArtistesByDate();
 						/>
 					))
 				}
+			</div>
 			</div>
 		</div>
 	</section>

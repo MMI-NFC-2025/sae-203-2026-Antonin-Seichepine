@@ -34,9 +34,10 @@ Object.values(parJour).forEach((artistesJour) => {
 
   <!-- Programme -->
   <section class="px-6 py-10">
-    <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">Programme</h2>
+    <div class="mygrid">
+    <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold lg:col-span-12">Programme</h2>
 
-    <div class="flex flex-col gap-6 max-w-md mx-auto">
+    <div class="flex flex-col gap-6 max-w-md mx-auto lg:col-span-12 lg:max-w-none lg:mx-0 lg:grid lg:grid-cols-2 lg:gap-8">
       {Object.entries(parJour).map(([jour, artistesJour]) => (
         <div class="bg-card rounded-xl p-5">
           <!-- Date + tag -->
@@ -60,6 +61,7 @@ Object.values(parJour).forEach((artistesJour) => {
           ))}
         </div>
       ))}
+    </div>
     </div>
   </section>
 

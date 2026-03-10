@@ -31,7 +31,9 @@ const artistes = await getArtistesBySceneId(id);
     </section>
 
     <!-- Détail scène -->
-    <section class="px-6 py-10 max-w-md mx-auto">
+    <section class="px-6 py-10">
+        <div class="mygrid">
+            <div class="max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0">
         <!-- Nom -->
         <h1 class="font-heading text-3xl text-cream text-center mb-6 font-bold">
             {scene.nom_scene}
@@ -56,30 +58,40 @@ const artistes = await getArtistesBySceneId(id);
                 </p>
             </div>
         </div>
+            </div>
+        </div>
     </section>
 
     <!-- Artistes sur cette scène -->
     {
         artistes.length > 0 && (
-            <section class="px-6 pb-10 max-w-md mx-auto">
+            <section class="px-6 pb-10">
+                <div class="mygrid">
+                    <div class="max-w-md mx-auto lg:col-start-2 lg:col-span-10 lg:max-w-none lg:mx-0">
                 <h2 class="font-heading text-2xl text-cream mb-6 font-bold">
                     Artistes sur cette scène
                 </h2>
-                <div class="flex flex-col gap-6">
+                <div class="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:gap-8">
                     {artistes.map((artiste) => (
                         <ArtisteCard artiste={artiste} />
                     ))}
+                </div>
+                    </div>
                 </div>
             </section>
         )
     }
     <!-- Bouton retour -->
-    <div class="mt-8 text-center">
+    <div class="px-6 mt-8 text-center">
+        <div class="mygrid">
+            <div class="lg:col-start-3 lg:col-span-8">
         <a
             href="/scenes"
             class="inline-block bg-accent text-primary font-body px-6 py-2 rounded-full border-2 border-accent hover:bg-transparent hover:text-accent transition-colors"
         >
             ← Toutes les scènes
         </a>
+            </div>
+        </div>
     </div>
 </Layout>

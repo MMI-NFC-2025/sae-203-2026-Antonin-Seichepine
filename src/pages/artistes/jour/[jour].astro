@@ -32,12 +32,13 @@ const jours = [
     </section>
 
     <!-- Filtres -->
-    <section class="px-6 pt-10 max-w-md mx-auto">
-        <h2 class="font-heading text-3xl text-cream text-center mb-6 font-bold">
+    <section class="px-6 pt-10">
+        <div class="mygrid">
+        <h2 class="font-heading text-3xl text-cream text-center mb-6 font-bold lg:col-span-12">
             Artistes
         </h2>
 
-        <div class="flex flex-wrap gap-2 mb-8 justify-center">
+        <div class="flex flex-wrap gap-2 mb-8 justify-center lg:col-start-2 lg:col-span-10">
             <a
                 href="/artistes"
                 class="font-body text-xs bg-transparent text-cream px-3 py-1 rounded-lg"
@@ -61,12 +62,15 @@ const jours = [
                 ))
             }
         </div>
+        </div>
     </section>
 
     <!-- Liste filtrée -->
-    <section class="px-6 pb-10 max-w-md mx-auto">
-        <div class="flex flex-col gap-6">
+    <section class="px-6 pb-10">
+        <div class="mygrid">
+        <div class="flex flex-col gap-6 max-w-md mx-auto lg:col-span-12 lg:max-w-none lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-8">
             {artistes.map((artiste) => <ArtisteCard artiste={artiste} />)}
+        </div>
         </div>
     </section>
 </Layout>

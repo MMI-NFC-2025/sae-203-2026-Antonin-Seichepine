@@ -23,12 +23,13 @@ const jours = [
 
     <!-- Liste des artistes -->
     <section class="px-6 py-10">
-        <h2 class="font-heading text-3xl text-cream text-center mb-6 font-bold">
+        <div class="mygrid">
+        <h2 class="font-heading text-3xl text-cream text-center mb-6 font-bold lg:col-span-12">
             Artistes
         </h2>
 
         <!-- Filtres par genre -->
-        <div class="flex flex-wrap gap-2 mb-4 justify-center max-w-md mx-auto">
+        <div class="flex flex-wrap gap-2 mb-4 justify-center max-w-md mx-auto lg:col-start-2 lg:col-span-10 lg:max-w-none lg:mx-0">
             <span class="font-body text-xs text-cream-dark mr-1">Genre :</span>
             {
                 genres.map((g) => (
@@ -44,7 +45,7 @@ const jours = [
         </div>
 
         <!-- Filtres par jour -->
-        <div class="flex flex-wrap gap-2 mb-8 justify-center max-w-md mx-auto">
+        <div class="flex flex-wrap gap-2 mb-8 justify-center max-w-md mx-auto lg:col-start-2 lg:col-span-10 lg:max-w-none lg:mx-0">
             <span class="font-body text-xs text-cream-dark mr-1">Jour :</span>
             {
                 jours.map((j) => (
@@ -59,8 +60,9 @@ const jours = [
             }
         </div>
 
-        <div class="flex flex-col gap-6 max-w-md mx-auto">
+        <div class="flex flex-col gap-6 max-w-md mx-auto lg:col-span-12 lg:max-w-none lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-8">
             {artistes.map((artiste) => <ArtisteCard artiste={artiste} />)}
+        </div>
         </div>
     </section>
 </Layout>

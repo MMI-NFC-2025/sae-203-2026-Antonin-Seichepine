@@ -48,7 +48,9 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout titre="Connexion">
-    <section class="px-6 py-10 max-w-md mx-auto">
+    <section class="px-6 py-10">
+        <div class="mygrid">
+            <div class="max-w-md mx-auto lg:col-start-4 lg:col-span-6 lg:max-w-none lg:mx-0">
         <h2 class="font-heading text-3xl text-cream text-center mb-8 font-bold">
             Connexion
         </h2>
@@ -97,5 +99,7 @@ if (Astro.request.method === "POST") {
                 </button>
             </div>
         </form>
+            </div>
+        </div>
     </section>
 </Layout>

@@ -39,3 +39,9 @@
         @apply font-heading;
     }
 }
+
+@layer components {
+    .mygrid {
+        @apply lg:grid lg:grid-cols-12 lg:gap-8 lg:max-w-7xl lg:mx-auto;
+    }
+}

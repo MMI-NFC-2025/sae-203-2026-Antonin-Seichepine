@@ -36,7 +36,9 @@ const allImages = [artiste.photo, ...(artiste.galerie || [])];
     </section>
 
     <!-- Détail artiste -->
-    <section class="px-6 py-10 max-w-md mx-auto">
+    <section class="px-6 py-10">
+        <div class="mygrid">
+            <div class="max-w-md mx-auto lg:col-start-3 lg:col-span-8 lg:max-w-none lg:mx-0">
         <!-- Nom -->
         <h1 class="font-heading text-3xl text-cream text-center mb-6 font-bold">
             {artiste.nom_artiste}
@@ -131,6 +133,8 @@ const allImages = [artiste.photo, ...(artiste.galerie || [])];
             >
                 ← Tous les artistes
             </a>
+        </div>
+            </div>
         </div>
     </section>
 </Layout>
