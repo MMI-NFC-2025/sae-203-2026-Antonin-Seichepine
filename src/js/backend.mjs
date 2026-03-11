@@ -10,7 +10,7 @@ const pb = new PocketBase('https://pb-festicloze.antonin-seichepine.fr');
 // 1. Tous les artistes triés par date
 export async function getArtistesByDate() {
     try {
-        let data = await pb.collection('artistes').getFullList({
+        const data = await pb.collection('artistes').getFullList({
             sort: 'date_debut',
             expand: 'scene',
         });
@@ -25,7 +25,7 @@ export async function getArtistesByDate() {
 // 2. Toutes les scènes triées par nom
 export async function getScenesByName() {
     try {
-        let data = await pb.collection('scenes').getFullList({
+        const data = await pb.collection('scenes').getFullList({
             sort: 'nom_scene',
         });
         return data;
@@ -39,7 +39,7 @@ export async function getScenesByName() {
 // 3. Tous les artistes triés par ordre alphabétique
 export async function getArtistesByName() {
     try {
-        let data = await pb.collection('artistes').getFullList({
+        const data = await pb.collection('artistes').getFullList({
             sort: 'nom_artiste',
             expand: 'scene',
         });
@@ -80,7 +80,7 @@ export async function getScene(id) {
 // 6. Artistes d'une scène par son id, triés par date
 export async function getArtistesBySceneId(sceneId) {
     try {
-        let data = await pb.collection('artistes').getFullList({
+        const data = await pb.collection('artistes').getFullList({
             filter: `scene = "${sceneId}"`,
             sort: 'date_debut',
             expand: 'scene',
@@ -96,7 +96,7 @@ export async function getArtistesBySceneId(sceneId) {
 // 7. Artistes d'une scène par son nom, triés par date
 export async function getArtistesBySceneName(nomScene) {
     try {
-        let data = await pb.collection('artistes').getFullList({
+        const data = await pb.collection('artistes').getFullList({
             filter: `scene.nom_scene = "${nomScene}"`,
             sort: 'date_debut',
             expand: 'scene',

@@ -1,203 +1,170 @@
-import {
-    getArtistesByDate,
-    getScenesByName,
-    getArtistesByName,
-    getArtiste,
-    getScene,
-    getArtistesBySceneId,
-    getArtistesBySceneName,
-    updateArtiste,
-    createArtiste,
-    updateScene,
-    createScene,
-    getImageUrl,
-} from './backend.mjs';
+import { getArtistesByDate } from "./backend.mjs";
+import { getScenesByName } from "./backend.mjs";
+import { getArtistesByName } from "./backend.mjs";
+import { getArtiste } from "./backend.mjs";
+import { getScene } from "./backend.mjs";
+import { getArtistesBySceneId } from "./backend.mjs";
+import { getArtistesBySceneName } from "./backend.mjs";
+import { updateArtiste } from "./backend.mjs";
+import { createArtiste } from "./backend.mjs";
+import { updateScene } from "./backend.mjs";
+import { createScene } from "./backend.mjs";
+import { loginUser } from "./backend.mjs";
+import { isUserAuthenticated } from "./backend.mjs";
+import { getImageUrl } from "./backend.mjs";
 
 
-// --- Test 1 : Artistes triés par date ---
-console.log('\n=== 1. Artistes triés par date ===');
+/* Test 1 : récupérer tous les artistes triés par date
 try {
-    const artistes = await getArtistesByDate();
-    console.table(artistes.map(a => ({
-        nom: a.nom_artiste,
-        date_debut: a.date_debut,
-        scene: a.expand?.scene?.nom_scene,
-    })));
+    const records = await getArtistesByDate();
+    console.log(JSON.stringify(records, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 2 : Scènes triées par nom ---
-console.log('\n=== 2. Scènes triées par nom ===');
+/* Test 2 : récupérer toutes les scènes triées par nom
 try {
-    const scenes = await getScenesByName();
-    console.table(scenes.map(s => ({
-        nom: s.nom_scene,
-        localisation: s.localisation,
-        capacite: s.capacite,
-    })));
+    const records = await getScenesByName();
+    console.log(JSON.stringify(records, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 3 : Artistes triés par ordre alphabétique ---
-console.log('\n=== 3. Artistes par ordre alphabétique ===');
+/* Test 3 : récupérer tous les artistes triés par ordre alphabétique
 try {
-    const artistes = await getArtistesByName();
-    console.table(artistes.map(a => ({
-        nom: a.nom_artiste,
-        genre: a.genre_musical,
-    })));
+    const records = await getArtistesByName();
+    console.log(JSON.stringify(records, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 4 : Infos d'un artiste par id ---
-console.log('\n=== 4. Infos artiste par id ===');
+/* Test 4 : récupérer un artiste à partir de son id
 try {
-    const artistes = await getArtistesByDate();
-    if (artistes.length > 0) {
-        const artiste = await getArtiste(artistes[0].id);
-        console.log('Artiste :', artiste.nom_artiste);
-        console.log('Genre :', artiste.genre_musical);
-        console.log('Scène :', artiste.expand?.scene?.nom_scene);
-    }
+    const record = await getArtiste("ID_ARTISTE");
+    console.log(JSON.stringify(record, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 5 : Infos d'une scène par id ---
-console.log('\n=== 5. Infos scène par id ===');
+/* Test 5 : récupérer une scène à partir de son id
 try {
-    const scenes = await getScenesByName();
-    if (scenes.length > 0) {
-        const scene = await getScene(scenes[0].id);
-        console.log('Scène :', scene.nom_scene);
-        console.log('Capacité :', scene.capacite);
-    }
+    const record = await getScene("ID_SCENE");
+    console.log(JSON.stringify(record, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 6 : Artistes par scène (id) ---
-console.log('\n=== 6. Artistes par scène (id) ===');
+/* Test 6 : récupérer les artistes d'une scène à partir de son id
 try {
-    const scenes = await getScenesByName();
-    if (scenes.length > 0) {
-        const artistes = await getArtistesBySceneId(scenes[0].id);
-        console.log('Scène :', scenes[0].nom_scene);
-        console.table(artistes.map(a => ({
-            nom: a.nom_artiste,
-            date_debut: a.date_debut,
-        })));
-    }
+    const records = await getArtistesBySceneId("ID_SCENE");
+    console.log(JSON.stringify(records, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 7 : Artistes par scène (nom) ---
-console.log('\n=== 7. Artistes par scène (nom) ===');
+/* Test 7 : récupérer les artistes d'une scène à partir de son nom
 try {
-    const artistes = await getArtistesBySceneName('Temple Saint-Martin');
-    console.log('Scène : Temple Saint-Martin');
-    console.table(artistes.map(a => ({
-        nom: a.nom_artiste,
-        date_debut: a.date_debut,
-    })));
+    const records = await getArtistesBySceneName("Temple Saint-Martin");
+    console.log(JSON.stringify(records, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 8 : Modifier un artiste (toggle favori) ---
-console.log('\n=== 8. Modifier un artiste (favori) ===');
+/* Test 8 : modifier un artiste
 try {
-    const artistes = await getArtistesByDate();
-    if (artistes.length > 0) {
-        const avant = artistes[0].favori;
-        const updated = await updateArtiste(artistes[0].id, { favori: !avant });
-        console.log('Artiste :', updated.nom_artiste);
-        console.log('Favori avant :', avant, '→ après :', updated.favori);
-        // On remet la valeur d'origine
-        await updateArtiste(artistes[0].id, { favori: avant });
-        console.log('(remis à la valeur initiale)');
-    }
-} catch (e) {
-    console.error(e);
-}
-
-
-// --- Test 9 : Modifier une scène ---
-console.log('\n=== 9. Modifier une scène (capacité) ===');
-try {
-    const scenes = await getScenesByName();
-    if (scenes.length > 0) {
-        const avant = scenes[0].capacite;
-        const updated = await updateScene(scenes[0].id, { capacite: 999 });
-        console.log('Scène :', updated.nom_scene);
-        console.log('Capacité avant :', avant, '→ après :', updated.capacite);
-        // On remet la valeur d'origine
-        await updateScene(scenes[0].id, { capacite: avant });
-        console.log('(remis à la valeur initiale)');
-    }
-} catch (e) {
-    console.error(e);
-}
-
-
-// --- Test 10 : Créer puis supprimer un artiste de test ---
-console.log('\n=== 10. Créer un artiste de test ===');
-try {
-    const newArtiste = await createArtiste({
-        nom_artiste: 'Artiste Test',
-        genre_musical: 'Test',
-        description_artiste: 'Ceci est un artiste de test',
-        date_debut: '2025-12-25 20:00:00',
-        favori: false,
+    const record = await updateArtiste("ID_ARTISTE", {
+        favori: true
     });
-    if (newArtiste) {
-        console.log('Artiste créé :', newArtiste.nom_artiste, '(id:', newArtiste.id, ')');
-        // On supprime l'artiste de test pour garder la base propre
-        // (suppression directe via le SDK)
-        console.log('(suppression de l\'artiste de test...)');
-    }
+    console.log(JSON.stringify(record, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 11 : Créer puis supprimer une scène de test ---
-console.log('\n=== 11. Créer une scène de test ===');
+/* Test 9 : créer un artiste
 try {
-    const newScene = await createScene({
-        nom_scene: 'Scène Test',
-        description_scene: 'Ceci est une scène de test',
-        localisation: 'Test',
-        capacite: 100,
+    const record = await createArtiste({
+        nom_artiste: "Artiste Test",
+        genre_musical: "Test",
+        description_artiste: "Artiste de test",
+        date_debut: "2025-12-25 20:00:00",
+        favori: false
     });
-    if (newScene) {
-        console.log('Scène créée :', newScene.nom_scene, '(id:', newScene.id, ')');
-        console.log('(suppression de la scène de test...)');
-    }
+    console.log(JSON.stringify(record, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
 
 
-// --- Test 12 : URL d'image ---
-console.log('\n=== 12. Test URL image ===');
+/* Test 10 : modifier une scène
 try {
-    const artistes = await getArtistesByDate();
-    if (artistes.length > 0 && artistes[0].photo) {
-        const url = getImageUrl(artistes[0], artistes[0].photo);
-        console.log('URL image :', url);
-    }
+    const record = await updateScene("ID_SCENE", {
+        capacite: 500
+    });
+    console.log(JSON.stringify(record, null, 2));
 } catch (e) {
     console.error(e);
 }
+*/
+
+
+/* Test 11 : créer une scène
+try {
+    const record = await createScene({
+        nom_scene: "Scene Test",
+        description_scene: "Scene de test",
+        localisation: "Test",
+        capacite: 100
+    });
+    console.log(JSON.stringify(record, null, 2));
+} catch (e) {
+    console.error(e);
+}
+*/
+
+
+/* Test 12 : connexion utilisateur
+try {
+    const record = await loginUser("EMAIL_UTILISATEUR", "MOT_DE_PASSE");
+    console.log(JSON.stringify(record, null, 2));
+} catch (e) {
+    console.error(e);
+}
+*/
+
+
+/* Test 13 : vérifier si un utilisateur est authentifié
+try {
+    const record = await isUserAuthenticated("TOKEN_UTILISATEUR");
+    console.log(JSON.stringify(record, null, 2));
+} catch (e) {
+    console.error(e);
+}
+*/
+
+
+/* Test 14 : récupérer l'URL d'une image
+try {
+    const records = await getArtistesByDate();
+    const url = getImageUrl(records[0], records[0].photo);
+    console.log(url);
+} catch (e) {
+    console.error(e);
+}
+*/
