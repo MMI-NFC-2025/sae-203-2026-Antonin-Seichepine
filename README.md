@@ -7,7 +7,7 @@ https://festicloz.netlify.app
 
 Domaine personnalisé (Infomaniak – CNAME) :
 
-http://festicloze.antonin-seichepine.fr/
+https://festicloze.antonin-seichepine.fr/
 
 ## Backend
 
