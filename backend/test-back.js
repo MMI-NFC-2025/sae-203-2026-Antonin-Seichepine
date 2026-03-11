@@ -46,7 +46,7 @@ try {
 
 /* Test 4 : récupérer un artiste à partir de son id
 try {
-    const record = await getArtiste("ID_ARTISTE");
+    const record = await getArtiste("6j6afn6srz6sjay");
     console.log(JSON.stringify(record, null, 2));
 } catch (e) {
     console.error(e);
@@ -56,7 +56,7 @@ try {
 
 /* Test 5 : récupérer une scène à partir de son id
 try {
-    const record = await getScene("ID_SCENE");
+    const record = await getScene("eyx5ax3gccyn4xf");
     console.log(JSON.stringify(record, null, 2));
 } catch (e) {
     console.error(e);
@@ -66,7 +66,7 @@ try {
 
 /* Test 6 : récupérer les artistes d'une scène à partir de son id
 try {
-    const records = await getArtistesBySceneId("ID_SCENE");
+    const records = await getArtistesBySceneId("eyx5ax3gccyn4xf");
     console.log(JSON.stringify(records, null, 2));
 } catch (e) {
     console.error(e);
@@ -86,7 +86,7 @@ try {
 
 /* Test 8 : modifier un artiste
 try {
-    const record = await updateArtiste("ID_ARTISTE", {
+    const record = await updateArtiste("6j6afn6srz6sjay", {
         favori: true
     });
     console.log(JSON.stringify(record, null, 2));
@@ -114,7 +114,7 @@ try {
 
 /* Test 10 : modifier une scène
 try {
-    const record = await updateScene("ID_SCENE", {
+    const record = await updateScene("eyx5ax3gccyn4xf", {
         capacite: 500
     });
     console.log(JSON.stringify(record, null, 2));

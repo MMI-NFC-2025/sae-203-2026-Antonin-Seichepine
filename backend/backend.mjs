@@ -1,4 +1,3 @@
-// backend.mjs - Accès à la base de données PocketBase
 // Projet Festicloze - SAÉ 203
 
 import PocketBase from 'pocketbase';
@@ -152,7 +151,6 @@ export async function createScene(newData) {
 }
 
 
-// Utilitaire : récupérer l'URL d'une image PocketBase
 // 9. Connexion utilisateur
 export async function loginUser(email, password) {
     try {
@@ -184,6 +182,7 @@ export async function isUserAuthenticated(token) {
     }
 }
 
+// Utilitaire : récupérer l'URL d'une image PocketBase
 export function getImageUrl(record, recordImage) {
     return pb.files.getURL(record, recordImage);
 }
